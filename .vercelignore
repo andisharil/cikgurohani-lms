@@ -1,0 +1,12 @@
+# Not needed at build/runtime on Vercel.
+# Leading slash anchors to project root so these don't match nested dirs
+# like src/lib/supabase.
+/docs
+/tasks
+/scripts
+/supabase
+/.claude
+/*.pdf
+/README.md
+/AGENTS.md
+/CLAUDE.md

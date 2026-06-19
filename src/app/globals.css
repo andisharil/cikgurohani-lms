@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ---------------------------------------------------------------------------
+   cikgurohani — "Buku Latihan" identity
+   Exercise-book paper, red teacher's margin, highlighter active states,
+   ink-navy covers, ledger mono for data.
+--------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-paper: #f4f3ea; /* exam-paper background */
+  --color-card: #fcfbf6; /* a fresh sheet */
+  --color-ink: #16223a; /* fountain-pen navy */
+  --color-ink-soft: #46506a; /* muted ink */
+  --color-rule: #d6dbe4; /* faint ruled line */
+  --color-marker: #d2392b; /* teacher's red pen */
+  --color-highlight: #f4d64e; /* highlighter */
+  --color-chalk: #2e6e55; /* chalkboard green */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--ff-display);
+  --font-sans: var(--ff-body);
+  --font-mono: var(--ff-mono);
+  --font-hand: var(--ff-hand);
+
+  --radius: 5px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Wordmark — the cikgu's hand */
+.wordmark {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+/* Headings carry the display face */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Ruled exercise-book surface (subtle; never behind dense tables) */
+.ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(2rem - 1px),
+    color-mix(in srgb, var(--color-rule) 70%, transparent) calc(2rem - 1px),
+    color-mix(in srgb, var(--color-rule) 70%, transparent) 2rem
+  );
+}
+
+/* The red teacher's margin — a vertical rule down the left of a sheet */
+.book-margin {
+  position: relative;
+  padding-left: 1.75rem;
+}
+.book-margin::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: color-mix(in srgb, var(--color-marker) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Hero red-pen mark — drawn once on load, like a cikgu marking an answer.
+   Reduced motion (handled above) collapses the duration so it shows complete. */
+.pen-circle {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: penDraw 0.7s ease-out 0.35s forwards;
+}
+@keyframes penDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Print: hide chrome, force white paper for clean PDF export */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+  }
 }

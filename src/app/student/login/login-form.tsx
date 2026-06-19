@@ -35,8 +35,8 @@ export function StudentLoginForm() {
             <Input id="code" name="code" inputMode="numeric" maxLength={6} placeholder="123456" required autoFocus />
           </Field>
           {state.devCode && (
-            <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
-              Mod dev — kod anda: <b>{state.devCode}</b>
+            <p className="rounded-[5px] bg-highlight/25 px-3 py-2 text-xs text-ink">
+              Mod demo — kod anda: <b className="font-mono">{state.devCode}</b>
             </p>
           )}
           <Button type="submit" className="w-full" disabled={pending}>

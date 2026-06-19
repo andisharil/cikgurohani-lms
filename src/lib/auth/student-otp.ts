@@ -74,11 +74,15 @@ export async function issueStudentOtp(phone: string): Promise<IssueResult> {
   });
 
   const res = await sendWhatsAppOtp(phone, code);
-  // In dev (no WA configured) return the code so the flow is testable.
+  // Surface the code on-screen when WhatsApp isn't really sending it: always in
+  // dev, and in any environment when SHOW_DEV_OTP=true (demo mode). Remove the
+  // flag once the WhatsApp Cloud API is wired for real delivery.
+  const showOtp =
+    res.simulated && (process.env.NODE_ENV !== "production" || process.env.SHOW_DEV_OTP === "true");
   return {
     ok: true,
     simulated: res.simulated,
-    devCode: res.simulated && process.env.NODE_ENV !== "production" ? code : undefined,
+    devCode: showOtp ? code : undefined,
   };
 }
 

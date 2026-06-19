@@ -12,7 +12,13 @@ if (!url || !key) {
 }
 
 const email = process.env.SEED_ADMIN_EMAIL || "admin@cikgurohani.com";
-const password = process.env.SEED_ADMIN_PASSWORD || "cikguAdmin123!";
+// No hardcoded default — pass SEED_ADMIN_PASSWORD so a real password is never
+// committed (this repo is public).
+const password = process.env.SEED_ADMIN_PASSWORD;
+if (!password) {
+  console.error("Set SEED_ADMIN_PASSWORD (and optionally SEED_ADMIN_EMAIL) before running.");
+  process.exit(1);
+}
 
 const admin = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 
